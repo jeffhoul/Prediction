@@ -1,0 +1,32 @@
+---
+title: "CVINdices"
+author: "Jeff Houlahan"
+date: "February 13, 2019"
+output: html_document
+---
+
+# Creat a function called CorrTS that will create 2 correlated time series with a defined correlation and a defined mean and sd of abundance
+```{r}
+library("MASS", lib.loc="C:/Program Files/R/R-3.5.2/library")
+
+CorrTS<-function(d,a,b){
+species<-c(1:2)
+
+
+ES3<- matrix(d, nrow = max(species), ncol = max(species))
+diag(ES3) <- 1
+ES3
+sd<-rep(a, times=2)
+mu <- rep(b, times=2)
+covMat <- sd %*% t(sd) * ES3
+dat <- mvrnorm(n = 212, mu = mu, Sigma = covMat, empirical = TRUE)
+dat
+}
+```
+#Set up a loop to bind tgether lots of data like this
+```{r)
+library("plyr", lib.loc="C:/Program Files/R/R-3.5.2/library")
+g<-vector("list",1)
+for (i in 1:25){g[[i]]<-data.frame(CorrTS(-.7,.5,10))}
+h<-dplyr::bind_cols(g)
+```
