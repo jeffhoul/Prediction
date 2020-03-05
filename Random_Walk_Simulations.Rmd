@@ -71,6 +71,5 @@ Input would look like Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
 
 ```{r}
 Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
-big_data
 ```
 
