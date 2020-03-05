@@ -33,7 +33,7 @@ for (i in 1:(n-1)) {
   m[i+1]<-m[i] + (rnorm(u,v, w))
   
 }
-m
+exp(m)
 }
 ```
 
@@ -70,6 +70,6 @@ Run an example where we want 750 random walk time series of 25 years each with a
 Input would look like Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
 
 ```{r}
-Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
+Multipopts(n=25,z=750, mn=4, mx=4.5, u=1, v=0, w=1)
 ```
 
