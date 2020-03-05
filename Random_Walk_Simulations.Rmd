@@ -1,0 +1,76 @@
+---
+title: "Random Walk Simulations"
+author: "Jeff Houlahan"
+date: "3/4/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Single time series function called popts
+
+This function creates a single simulated population time series
+based on a random walk.   
+Step 1: initialise an empty vector   
+Step 2: Set the initial value by choosing from a uniform distribution between a specified 
+  minimum and maximum.   
+  Step 3: Create a for loop that adds some normally distributed random noise to N~t~
+to create N~t-1~.   
+
+
+```{r}
+popts<-function(n, mn, mx,u,v,w){
+m <- vector("numeric", n)
+
+m[1]<-runif(1,min = mn,max = mx)
+
+for (i in 1:(n-1)) {
+  
+  m[i+1]<-m[i] + (rnorm(u,v, w))
+  
+}
+m
+}
+```
+
+## Creating and indexing multiple time series using the popts function called Multipopts
+
+This function creates many simulated time series using popts and indexes each of the time series.   
+
+Step 1: Initialize an empty list.   
+Step 2: Create a matric with 2 columns and nrows = the number of years in the time series.
+Column 1 holds the index and Column 2 holds the population time series.   
+Step 3: Create a for loop that runs the popts as many time as necessary to get the number of time 
+series required.   
+Step 4: Store each time series in the list.   
+Step 5: Bind all the time series into a single data frame.   
+
+```{r}
+Multipopts<-function(n, z,mn,mx,u,v,w){
+g<-list()
+t<-matrix(nrow=n, ncol=2)
+for (j in 1:z) {
+
+ t[,2]<-popts(n=n,mn=mn,mx=mx,u=u,v=v,w=w)
+ t[,1]<-j
+  g[[j]]<-t
+}
+big_data = do.call(rbind, g)
+big_data
+}
+```
+
+## Example   
+
+Run an example where we want 750 random walk time series of 25 years each with a starting value between 80 and 100 and steps of 1 sd.   
+Input would look like Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
+
+```{r}
+Multipopts(n=25,z=750, mn=80, mx=100, u=1, v=0, w=1)
+big_data
+```
+
